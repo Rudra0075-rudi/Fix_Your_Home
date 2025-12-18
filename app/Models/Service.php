@@ -12,6 +12,16 @@ class Service extends Model
 
     protected $fillable = ['worker_id','service'];
 
+    protected $appends = ['name'];
+
+    /**
+     * Get the name attribute (alias for service)
+     */
+    public function getNameAttribute()
+    {
+        return $this->service;
+    }
+
     public function worker()
     {
         return $this->belongsTo(Worker::class, 'worker_id');

@@ -22,11 +22,18 @@ export default function LoginForm() {
 
     try {
       const res = await axios.post('/api/login', form);
-      if (setAuth) {
+      if (setAuth && res.data.user && res.data.token) {
         setAuth(res.data.user, res.data.token);
+      } else {
+        setError('Invalid response from server');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      console.error('Login error:', err);
+      const errorMessage = err.response?.data?.message || 
+                          err.response?.data?.error || 
+                          err.message || 
+                          'Login failed. Please check your credentials.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

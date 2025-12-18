@@ -17,4 +17,9 @@ class Customer extends Model
     {
         return $this->belongsTo(AuthAccount::class, 'customer_id');
     }
+
+    public function jobRequests()
+    {
+        return $this->hasMany(JobRequest::class, 'customer_id');
+    }
 }

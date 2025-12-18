@@ -99,11 +99,13 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        if (!Auth::attempt($credentials)) {
+        // Find user by email
+        $auth = AuthAccount::where('email', $credentials['email'])->first();
+
+        // Check if user exists and password matches
+        if (!$auth || !Hash::check($credentials['password'], $auth->password)) {
             return response()->json(['message' => 'Invalid credentials'], 422);
         }
-
-        $auth = Auth::user();
 
         // special admin email
         if ($auth->email === 'admin@gmail.com') {

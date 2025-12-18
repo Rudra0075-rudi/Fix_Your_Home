@@ -2,10 +2,8 @@
 -- PostgreSQL database dump
 --
 
-\restrict aGpyrrhr3fjXktuhovG22gZDnUlFIkofr2x69ffse1mzyuT7n7urOvUqOaW2Y7L
 
--- Dumped from database version 18.1
--- Dumped by pg_dump version 18.1
+
 
 -- Started on 2025-12-14 22:33:28
 
@@ -906,5 +904,5 @@ ALTER TABLE ONLY public.workers
 -- PostgreSQL database dump complete
 --
 
-\unrestrict aGpyrrhr3fjXktuhovG22gZDnUlFIkofr2x69ffse1mzyuT7n7urOvUqOaW2Y7L
+
 

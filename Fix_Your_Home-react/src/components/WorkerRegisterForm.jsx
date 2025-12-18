@@ -53,17 +53,20 @@ export default function WorkerRegisterForm() {
       const res = await axios.post('/api/register/worker', data, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      if (setAuth) {
+      if (setAuth && res.data.user && res.data.token) {
         setAuth(res.data.user, res.data.token);
+      } else {
+        setError('Invalid response from server');
       }
     } catch (err) {
+      console.error('Registration error:', err);
       if (err.response?.status === 422 && err.response.data?.errors) {
         const firstField = Object.keys(err.response.data.errors)[0];
         setError(err.response.data.errors[firstField][0]);
       } else if (err.response?.data?.message) {
         setError(err.response.data.message);
       } else {
-        setError('Registration failed');
+        setError('Registration failed. Please try again.');
       }
     } finally {
       setLoading(false);
