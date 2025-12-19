@@ -23,13 +23,13 @@ class AuthAccount extends Authenticatable
         'remember_token',
     ];
 
-    public function user()
+    public function customer()
     {
-        return $this->hasOne(User::class, 'user_id');
+        return $this->hasOne(Customer::class, 'customer_id', 'id');
     }
 
     public function worker()
     {
-        return $this->hasOne(Worker::class, 'worker_id');
+        return $this->hasOne(Worker::class, 'worker_id', 'id');
     }
 }

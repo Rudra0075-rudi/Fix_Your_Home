@@ -32,10 +32,13 @@ export default function UserRegisterForm() {
 
     try {
       const response = await axios.post('/api/register/user', form);
-      if (setAuth) {
+      if (setAuth && response.data.user && response.data.token) {
         setAuth(response.data.user, response.data.token);
+      } else {
+        setError('Invalid response from server');
       }
     } catch (err) {
+      console.error('Registration error:', err);
       if (err.response?.status === 422 && err.response.data?.errors) {
         const firstField = Object.keys(err.response.data.errors)[0];
         setError(err.response.data.errors[firstField][0]);

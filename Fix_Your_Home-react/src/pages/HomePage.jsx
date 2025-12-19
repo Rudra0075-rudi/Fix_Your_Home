@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import UserRegisterForm from '../components/UserRegisterForm.jsx';
 import WorkerRegisterForm from '../components/WorkerRegisterForm.jsx';
 import LoginForm from '../components/LoginForm.jsx';
@@ -7,7 +8,22 @@ import { useAuth } from '../context/AuthContext.jsx';
 export default function HomePage() {
   const { user, logout } = useAuth();
   const [activeTab, setActiveTab] = useState('user');
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    // Redirect to appropriate dashboard if user is logged in
+    if (user) {
+      if (user.type === 'admin') {
+        navigate('/admin', { replace: true });
+      } else if (user.type === 'worker') {
+        navigate('/worker', { replace: true });
+      } else if (user.type === 'user') {
+        navigate('/user', { replace: true });
+      }
+    }
+  }, [user, navigate]);
+
+  // Show loading or redirect message while redirecting
   if (user) {
     return (
       <div style={styles.page}>
@@ -16,34 +32,10 @@ export default function HomePage() {
             <div>
               <h1 style={styles.brand}>Fix Your Home</h1>
               <p style={styles.subtitle}>
-                Welcome back, <strong>{user.email}</strong> ({user.type}).
+                Redirecting to your dashboard...
               </p>
             </div>
-            <button style={styles.logoutButton} onClick={logout}>
-              Log out
-            </button>
           </header>
-
-          <section style={{ marginTop: '24px' }}>
-            {user.type === 'admin' && (
-              <p style={styles.text}>
-                You are logged in as <strong>Admin</strong>. You can manage all
-                users, workers, and services from the admin section (to be built).
-              </p>
-            )}
-            {user.type === 'worker' && (
-              <p style={styles.text}>
-                You are logged in as a <strong>Worker</strong>. Soon you can
-                manage your services, bookings, and profile here.
-              </p>
-            )}
-            {user.type === 'user' && (
-              <p style={styles.text}>
-                You are logged in as a <strong>User</strong>. Soon you can
-                browse workers and book services from this dashboard.
-              </p>
-            )}
-          </section>
         </div>
       </div>
     );

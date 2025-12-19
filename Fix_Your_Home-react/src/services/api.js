@@ -1,0 +1,40 @@
+import axios from 'axios';
+
+const api = {
+  // Auth endpoints
+  registerUser: (data) => axios.post('/api/register/user', data),
+  registerWorker: (data) => axios.post('/api/register/worker', data),
+  login: (data) => axios.post('/api/login', data),
+  logout: () => axios.post('/api/logout'),
+  getMe: () => axios.get('/api/me'),
+  forgotPassword: (data) => axios.post('/api/forgot-password', data),
+  resetPassword: (data) => axios.post('/api/reset-password', data),
+
+  // Service endpoints
+  getAvailableServices: () => axios.get('/api/available-services'),
+
+  // Admin endpoints
+  getAdminStats: () => axios.get('/api/admin/stats'),
+
+  // Worker endpoints
+  getWorkers: (params = {}) => axios.get('/api/workers', { params }),
+  getTopWorkersOfMonth: (params = {}) => axios.get('/api/workers/top-month', { params }),
+  getWorker: (id) => axios.get(`/api/workers/${id}`),
+  updateWorkerLocation: (data) => axios.post('/api/worker/location', data),
+  getMyWorkerProfile: () => axios.get('/api/worker/profile'),
+  getAvailableJobs: (params = {}) => axios.get('/api/worker/available-jobs', { params }),
+  getMyJobs: (params = {}) => axios.get('/api/worker/my-jobs', { params }),
+  applyForJob: (jobRequestId, data) => axios.post(`/api/worker/jobs/${jobRequestId}/apply`, data),
+  acceptJob: (jobRequestId) => axios.post(`/api/worker/jobs/${jobRequestId}/accept`),
+  completeJob: (jobRequestId, data) => axios.post(`/api/worker/jobs/${jobRequestId}/complete`, data),
+
+  // User endpoints
+  getJobRequests: (params = {}) => axios.get('/api/user/job-requests', { params }),
+  createJobRequest: (data) => axios.post('/api/user/job-requests', data),
+  acceptWorkerApplication: (jobRequestId, applicationId) => axios.post(`/api/user/job-requests/${jobRequestId}/applications/${applicationId}/accept`),
+  deleteJobRequest: (jobRequestId) => axios.delete(`/api/user/job-requests/${jobRequestId}`),
+  getNearestWorkers: (params = {}) => axios.get('/api/workers/nearest', { params }),
+};
+
+export default api;
+
